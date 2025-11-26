@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libssl-dev \
     libcurl4-openssl-dev \
+    libicu-dev \
     && docker-php-ext-install pdo pdo_mysql bcmath intl opcache \
     && pecl install redis \
     && docker-php-ext-enable redis \
