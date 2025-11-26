@@ -1,0 +1,17 @@
+{
+    "preset": "psr12",
+    "rules": {
+        "concat_space": {
+            "spacing": "one"
+        },
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "native_function_invocation": {
+            "include": [
+                "@compiler_optimized"
+            ],
+            "scope": "all"
+        }
+    }
+}
