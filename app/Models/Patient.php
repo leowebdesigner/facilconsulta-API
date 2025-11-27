@@ -67,4 +67,14 @@ class Patient extends Model
                 ->orWhere('phone', 'like', "%{$term}%");
         });
     }
+
+    public function scopeIsActive(Builder $query, ?bool $active): Builder
+    {
+        return is_null($active) ? $query : $query->where('is_active', $active);
+    }
+
+    public function scopeEmail(Builder $query, string $email): Builder
+    {
+        return $query->where('email', $email);
+    }
 }

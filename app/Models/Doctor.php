@@ -68,4 +68,9 @@ class Doctor extends Model
             $builder->active();
         });
     }
+
+    public function scopeActiveState(Builder $query, ?bool $active): Builder
+    {
+        return is_null($active) ? $query : $query->where('is_active', $active);
+    }
 }
