@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Appointment;
 use App\Models\Doctor;
-use App.Models\DoctorSchedule;
+use App\Models\DoctorSchedule;
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
