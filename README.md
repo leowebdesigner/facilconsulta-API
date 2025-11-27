@@ -12,7 +12,7 @@ API profissional para agendamento médico construída em Laravel 11+, seguindo C
 
 ```bash
 git clone https://github.com/leowebdesigner/facilconsulta-API
-cd facilconsulta
+cd facilconsulta-API
 cp .env.example .env          # ajuste variáveis conforme necessidade
 ```
 
