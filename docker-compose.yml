@@ -54,6 +54,22 @@ services:
     networks:
       - facilconsulta
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2
+    container_name: facilconsulta-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: ${DB_USERNAME:-facilconsulta}
+      PMA_PASSWORD: ${DB_PASSWORD:-secret}
+      UPLOAD_LIMIT: 128M
+    ports:
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    depends_on:
+      - mysql
+    networks:
+      - facilconsulta
+
 networks:
   facilconsulta:
     driver: bridge

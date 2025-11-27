@@ -19,7 +19,7 @@ return [
                 /*
                  * Edit to include full URL in ui for assets
                  */
-                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
+                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', false),
 
                 /*
                 * Edit to set path where swagger ui assets should be stored
@@ -45,7 +45,6 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('app/Docs'),
                     base_path('app/Http/Controllers/Api/V1'),
                     base_path('app/Http/Resources/V1'),
                 ],

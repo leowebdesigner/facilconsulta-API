@@ -96,11 +96,18 @@ Execute `make seed` para popular:
 - 5 médicos com 3 horários cada.
 - Agendamentos de exemplo (futuros) conectando pacientes/médicos/horários.
 
-## Swagger / API Docs
+# Swagger / API Docs
 
 - Gere a documentação após alterações: `make swagger`.
 - Acesse `http://localhost:8080/api/documentation` para visualizar a UI.
-- As anotações ficam nos controllers/resources (`app/Http/Controllers/Api/V1` e `app/Http/Resources/V1`).
+- As anotações ficam nos controllers/resources e em `SwaggerController`.
+
+## phpMyAdmin
+
+- Incluí um container phpMyAdmin para inspecionar o MySQL.
+- Acesse `http://localhost:${PHPMYADMIN_PORT:-8081}` (default `http://localhost:8081`).
+- Host: `mysql`
+- Usuário/senha: use as mesmas variáveis `DB_USERNAME` / `DB_PASSWORD` (padrão `facilconsulta` / `secret`).
 
 ## Suite de testes
 
