@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginPatientRequest;
-use App\Http\Requests\Auth/RegisterPatientRequest;
+use App\Http\Requests\Auth\RegisterPatientRequest;
 use App\Http\Resources\V1\PatientResource;
 use App\Services\AuthService;
 use App\Traits\Http\HandlesExceptionsTrait;

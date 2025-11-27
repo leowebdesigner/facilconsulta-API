@@ -17,6 +17,9 @@ class AppointmentResource extends JsonResource
         return [
             'id' => $this->id,
             'status' => $this->status,
+            'patient_id' => $this->patient_id,
+            'doctor_id' => $this->doctor_id,
+            'doctor_schedule_id' => $this->doctor_schedule_id,
             'scheduled_date' => optional($this->scheduled_date)->toDateString(),
             'scheduled_time' => optional($this->scheduled_time)->format('H:i'),
             'notes' => $this->notes,
