@@ -1,7 +1,10 @@
 SHELL := /bin/bash
 COMPOSE := docker compose
 
-.PHONY: up down restart logs bash migrate seed test fix optimize
+.PHONY: build up down restart logs bash migrate seed test fix optimize swagger key
+
+build:
+	$(COMPOSE) build
 
 up:
 	$(COMPOSE) up -d
@@ -32,3 +35,9 @@ fix:
 
 optimize:
 	$(COMPOSE) exec php php artisan optimize
+
+swagger:
+	$(COMPOSE) exec php php artisan l5-swagger:generate
+
+key:
+	$(COMPOSE) exec php php artisan key:generate
