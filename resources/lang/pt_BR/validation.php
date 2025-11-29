@@ -143,6 +143,15 @@ return [
     'ulid' => 'O campo :attribute deve ser um ULID válido.',
     'uuid' => 'O campo :attribute deve ser um UUID válido.',
 
+    'custom' => [
+        'invalid_schedule' => 'A agenda selecionada é inválida para este médico.',
+        'schedule_inactive' => 'A agenda selecionada está inativa.',
+        'schedule_weekday_mismatch' => 'A data escolhida não corresponde ao dia da semana desta agenda.',
+        'schedule_time_outside_range' => 'O horário informado está fora do intervalo disponível.',
+        'schedule_slot_mismatch' => 'O horário não está alinhado com o intervalo configurado para a agenda.',
+        'schedule_slot_unavailable' => 'Este horário já está reservado para o médico.',
+    ],
+
     'attributes' => [
         'email' => 'e-mail',
         'password' => 'senha',
