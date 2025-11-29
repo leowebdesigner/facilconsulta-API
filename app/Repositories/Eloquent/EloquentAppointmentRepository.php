@@ -41,8 +41,30 @@ class EloquentAppointmentRepository implements AppointmentRepositoryInterface
             ->with(['doctor', 'patient', 'schedule'])
             ->forPatient($patientId)
             ->status($filters['status'] ?? null)
-            ->orderByDesc('scheduled_date')
-            ->orderByDesc('scheduled_time')
+            ->when(
+                (bool) ($filters['upcoming'] ?? false),
+                fn ($query) => $query
+                    ->whereDate('scheduled_date', '>=', now()->toDateString())
+                    ->orderBy('scheduled_date')
+                    ->orderBy('scheduled_time'),
+                fn ($query) => $query
+                    ->orderByDesc('scheduled_date')
+                    ->orderByDesc('scheduled_time')
+            )
             ->paginate($perPage);
+    }
+
+    public function existsForDoctorAt(int $doctorId, string $date, string $time, ?int $ignoreAppointmentId = null): bool
+    {
+        return Appointment::query()
+            ->where('doctor_id', $doctorId)
+            ->whereDate('scheduled_date', $date)
+            ->whereTime('scheduled_time', $time)
+            ->whereIn('status', [
+                Appointment::STATUS_SCHEDULED,
+                Appointment::STATUS_CONFIRMED,
+            ])
+            ->when($ignoreAppointmentId, fn ($query) => $query->where('id', '!=', $ignoreAppointmentId))
+            ->exists();
     }
 }

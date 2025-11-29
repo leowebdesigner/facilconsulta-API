@@ -16,4 +16,6 @@ interface AppointmentRepositoryInterface
     public function listForDoctor(int $doctorId, array $filters = [], int $perPage = 15): LengthAwarePaginator;
 
     public function listForPatient(int $patientId, array $filters = [], int $perPage = 15): LengthAwarePaginator;
+
+    public function existsForDoctorAt(int $doctorId, string $date, string $time, ?int $ignoreAppointmentId = null): bool;
 }

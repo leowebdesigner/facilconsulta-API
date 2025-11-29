@@ -16,7 +16,11 @@ class PatientDashboardService
 
     public function upcomingAppointments(int $patientId, int $limit = 5): Collection
     {
-        $paginator = $this->appointments->listForPatient($patientId, [], $limit);
+        $paginator = $this->appointments->listForPatient(
+            $patientId,
+            ['upcoming' => true],
+            $limit
+        );
 
         return collect($paginator->items());
     }

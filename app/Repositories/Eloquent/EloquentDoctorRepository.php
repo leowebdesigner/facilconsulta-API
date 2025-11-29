@@ -83,9 +83,9 @@ class EloquentDoctorRepository implements DoctorRepositoryInterface
     private function buildAvailability(Doctor $doctor, SupportCollection $dates): array
     {
         return $dates->map(function (Carbon $date) use ($doctor) {
-            $schedule = $doctor->schedules->firstWhere('weekday', $date->dayOfWeekIso);
+            $schedules = $doctor->schedules->where('weekday', $date->dayOfWeekIso);
 
-            if (! $schedule) {
+            if ($schedules->isEmpty()) {
                 return [
                     'date' => $date->toDateString(),
                     'weekday' => $date->dayOfWeekIso,
@@ -100,10 +100,17 @@ class EloquentDoctorRepository implements DoctorRepositoryInterface
                 ->values()
                 ->all();
 
+            $slots = $schedules
+                ->flatMap(fn ($schedule) => $this->generateSlots($schedule, $occupiedSlots))
+                ->unique()
+                ->sort()
+                ->values()
+                ->all();
+
             return [
                 'date' => $date->toDateString(),
                 'weekday' => $date->dayOfWeekIso,
-                'slots' => $this->generateSlots($schedule, $occupiedSlots),
+                'slots' => $slots,
             ];
         })->all();
     }
