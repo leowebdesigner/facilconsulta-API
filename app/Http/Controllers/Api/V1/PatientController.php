@@ -62,7 +62,7 @@ class PatientController extends Controller
     public function upcoming(Request $request): JsonResponse
     {
         return $this->safeCall(function () use ($request) {
-            $limit = $request->integer('limit', 5);
+            $limit = max(1, min(50, $request->integer('limit', 5)));
             $collection = $this->dashboardService->upcomingAppointments($request->user()->id, $limit);
 
             return $this->successResponse([

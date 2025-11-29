@@ -12,6 +12,7 @@ use App\Traits\Http\HandlesExceptionsTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class AppointmentController extends Controller
 {
@@ -83,10 +84,11 @@ class AppointmentController extends Controller
     public function doctorAppointments(Request $request, int $doctorId): JsonResponse
     {
         return $this->safeCall(function () use ($request, $doctorId) {
+            $perPage = max(1, min(50, $request->integer('per_page', 15)));
             $appointments = $this->appointmentService->listForDoctor(
                 $doctorId,
                 $request->only('status'),
-                $request->integer('per_page', 15)
+                $perPage
             );
 
             return $this->successResponse([
@@ -116,11 +118,14 @@ class AppointmentController extends Controller
      */
     public function patientAppointments(Request $request, int $patientId): JsonResponse
     {
+        abort_if($request->user()->id !== $patientId, Response::HTTP_FORBIDDEN);
+
         return $this->safeCall(function () use ($request, $patientId) {
+            $perPage = max(1, min(50, $request->integer('per_page', 15)));
             $appointments = $this->appointmentService->listForPatient(
                 $patientId,
                 $request->only('status'),
-                $request->integer('per_page', 15)
+                $perPage
             );
 
             return $this->successResponse([
@@ -149,6 +154,8 @@ class AppointmentController extends Controller
      */
     public function updateStatus(UpdateAppointmentStatusRequest $request, Appointment $appointment): JsonResponse
     {
+        abort_if($appointment->patient_id !== $request->user()->id, Response::HTTP_FORBIDDEN);
+
         return $this->safeCall(function () use ($request, $appointment) {
             $updated = $this->appointmentService->updateStatus(
                 $appointment,

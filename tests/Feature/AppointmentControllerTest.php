@@ -18,8 +18,13 @@ class AppointmentControllerTest extends TestCase
     {
         $patient = Patient::factory()->create();
         $doctor = Doctor::factory()->create();
+        $scheduledDate = now()->addDays(2);
         $schedule = DoctorSchedule::factory()->create([
             'doctor_id' => $doctor->id,
+            'weekday' => $scheduledDate->dayOfWeekIso,
+            'start_time' => '09:00',
+            'end_time' => '12:00',
+            'slot_duration' => 30,
         ]);
 
         Sanctum::actingAs($patient);
@@ -28,7 +33,7 @@ class AppointmentControllerTest extends TestCase
             'patient_id' => $patient->id,
             'doctor_id' => $doctor->id,
             'doctor_schedule_id' => $schedule->id,
-            'scheduled_date' => now()->addDay()->toDateString(),
+            'scheduled_date' => $scheduledDate->toDateString(),
             'scheduled_time' => '10:00',
         ];
 
@@ -51,16 +56,21 @@ class AppointmentControllerTest extends TestCase
             'specialty' => 'Cardiologia',
             'address' => 'Rua Doc Teste, 500',
         ]);
+        $scheduledDate = now()->addDays(3);
         $schedule = DoctorSchedule::factory()->create([
             'doctor_id' => $doctor->id,
+            'weekday' => $scheduledDate->dayOfWeekIso,
+            'start_time' => '13:00',
+            'end_time' => '17:00',
+            'slot_duration' => 60,
         ]);
 
         Appointment::factory()->create([
             'patient_id' => $patient->id,
             'doctor_id' => $doctor->id,
             'doctor_schedule_id' => $schedule->id,
-            'scheduled_date' => now()->addDay()->toDateString(),
-            'scheduled_time' => '10:00',
+            'scheduled_date' => $scheduledDate->toDateString(),
+            'scheduled_time' => '13:00',
         ]);
 
         Sanctum::actingAs($patient);
