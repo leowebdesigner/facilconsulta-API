@@ -46,7 +46,13 @@ class EloquentDoctorRepository implements DoctorRepositoryInterface
     public function listAvailable(string $date, ?string $specialty = null, int $days = 5): Collection
     {
         $startDate = Carbon::parse($date)->startOfDay();
-        $days = max(1, min(14, $days));
+        $today = Carbon::now()->startOfDay();
+
+        if ($startDate->lt($today)) {
+            $startDate = $today->copy();
+        }
+
+        $days = max(1, min(180, $days));
         $dateRange = collect(range(0, $days - 1))->map(fn (int $offset) => $startDate->copy()->addDays($offset));
         $weekdays = $dateRange->map->dayOfWeekIso->unique()->values()->all();
 

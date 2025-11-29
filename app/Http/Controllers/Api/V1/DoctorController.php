@@ -54,7 +54,7 @@ class DoctorController extends Controller
      *     summary="Listar médicos disponíveis por data",
      *     @OA\Parameter(name="date", in="query", @OA\Schema(type="string", format="date")),
      *     @OA\Parameter(name="specialty", in="query", @OA\Schema(type="string")),
-     *     @OA\Parameter(name="days", in="query", @OA\Schema(type="integer", minimum=1, maximum=14), description="Quantidade de dias consecutivos a partir da data inicial"),
+     *     @OA\Parameter(name="days", in="query", @OA\Schema(type="integer", minimum=1, maximum=180), description="Quantidade de dias consecutivos a partir da data inicial (até ~6 meses)"),
      *     @OA\Response(
      *         response=200,
      *         description="Médicos disponíveis",
@@ -72,7 +72,7 @@ class DoctorController extends Controller
             $date = $request->query('date', now()->toDateString());
             $specialty = $request->query('specialty');
             $days = (int) $request->query('days', 5);
-            $days = max(1, min(14, $days));
+            $days = max(1, min(180, $days));
             $doctors = $this->doctorService->listAvailable($date, $specialty, $days);
 
             return $this->successResponse([
